@@ -1,6 +1,9 @@
 package madstodolist.controller;
 
 import madstodolist.dto.UsuarioData;
+import java.util.Arrays;
+import java.util.List;
+import static org.assertj.core.api.Assertions.assertThat;
 import madstodolist.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -72,8 +76,8 @@ public class UsuarioWebTest {
         // Realizamos una petición POST con los datos del usuario mockeado y
         // se debe devolver una página que contenga el mensaja "No existe usuario"
         this.mockMvc.perform(post("/login")
-                        .param("eMail","pepito.perez@gmail.com")
-                        .param("password","12345678"))
+                        .param("eMail", "pepito.perez@gmail.com")
+                        .param("password", "12345678"))
                 .andExpect(content().string(containsString("No existe usuario")));
     }
 
@@ -89,8 +93,30 @@ public class UsuarioWebTest {
         // Realizamos una petición POST con los datos del usuario mockeado y
         // se debe devolver una página que contenga el mensaja "Contraseña incorrecta"
         this.mockMvc.perform(post("/login")
-                        .param("eMail","ana.garcia@gmail.com")
-                        .param("password","000"))
+                        .param("eMail", "ana.garcia@gmail.com")
+                        .param("password", "000"))
                 .andExpect(content().string(containsString("Contraseña incorrecta")));
+    }
+
+    @Test 
+    public void DevuelveListaDeUsuarios() {
+        UsuarioData usuario1 = new UsuarioData();
+        usuario1.setEmail("ana@ua.es");
+        usuario1.setNombre("Ana García");
+
+        UsuarioData usuario2 = new UsuarioData();
+        usuario2.setEmail("carlos@ua.es");
+        usuario2.setNombre("Carlos Pérez");
+
+        when(usuarioService.listarUsuarios()).thenReturn(Arrays.asList(usuario1, usuario2));
+
+        List<UsuarioData> usuarios = usuarioService.listarUsuarios();
+
+        //Verificamos que la lista se recupera correctamente
+        assertThat(usuarios).isNotNull();
+
+        //Comprobamos que contiene al menos los emails de los usuarios que acabamos de registrar
+        assertThat(usuarios).extracting(UsuarioData::getEmail)
+                .contains("ana@ua.es", "carlos@ua.es");
     }
 }
