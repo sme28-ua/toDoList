@@ -36,9 +36,14 @@ public class UsuarioService {
         }
     }
 
-    // Se añade un usuario en la aplicación.
-    // El email y password del usuario deben ser distinto de null
-    // El email no debe estar registrado en la base de datos
+    @Transactional(readOnly = true)
+    public List<UsuarioData> listarUsuarios() {
+        List<Usuario> usuarios = (List<Usuario>) usuarioRepository.findAll();
+        return usuarios.stream()
+                .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public UsuarioData registrar(UsuarioData usuario) {
         Optional<Usuario> usuarioBD = usuarioRepository.findByEmail(usuario.getEmail());
