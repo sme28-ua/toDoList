@@ -1,5 +1,7 @@
 package madstodolist.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import madstodolist.dto.UsuarioData;
 import madstodolist.model.Usuario;
 import madstodolist.repository.UsuarioRepository;
