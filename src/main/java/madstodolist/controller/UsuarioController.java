@@ -1,5 +1,6 @@
 package madstodolist.controller;
 
+import madstodolist.model.Usuario;
 import madstodolist.dto.UsuarioData;
 import madstodolist.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,22 @@ public class UsuarioController {
 
         return "listadoDeUsuarios";
     }
+
+    public String perfilUsuario(@PathVariable(value = "id") Long idUsuario, Model model, HttpSession session) {
+        Long idLogeado = (Long) session.getAttribute("idUsuarioLogeado");
+        if (idLogeado == null) {
+            return "redirect:/login";
+        }
+
+
+        Usuario usuario = usuarioService.findById(idUsuario);
+        if (usuario == null) {
+            return "redirect:/registrados";
+        }
+
+        model.addAttribute("usuario", usuario);
+
+        return "perfilUsuario";
+    }
+
 }
