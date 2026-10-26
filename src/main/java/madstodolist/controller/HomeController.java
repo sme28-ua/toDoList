@@ -9,6 +9,6 @@ public class HomeController {
 
     @GetMapping("/about")
     public String about(Model model) {
-        return "About";
+        return "about";
     }
 }
