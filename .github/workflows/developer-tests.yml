@@ -3,7 +3,7 @@ on: push
 jobs:
   launch-tests:
     runs-on: ubuntu-latest
-    container: openjdk:8-jdk-alpine
+    container: eclipse-temurin:8-jdk-alpine
     steps:
       - uses: actions/checkout@v2
       - name: Launch tests with Maven
