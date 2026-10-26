@@ -20,7 +20,7 @@ public class UsuarioController {
 
     @GetMapping("/registrados")
     public String listadoUsuarios(Model model, HttpSession session) {
-        Long idUsuarioLogeado = (Long) session.getAttribute("idUsuarioLogeado");
+            Long idUsuarioLogeado = (Long) session.getAttribute("idUsuarioLogeado");
         if (idUsuarioLogeado == null) {
             return "redirect:/login";
         }
