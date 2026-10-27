@@ -33,6 +33,19 @@ public class EquipoService {
         return modelMapper.map(equipo, EquipoData.class);
     }
 
+    @Transactional
+    public EquipoData crearEquipo(String nombre, Long idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            throw new EquipoServiceException("No existe usuario con id " + idUsuario);
+        }
+
+        Equipo equipo = new Equipo(nombre);
+        equipo.addUsuario(usuario);
+        equipo = equipoRepository.save(equipo);
+        return modelMapper.map(equipo, EquipoData.class);
+    }
+
     @Transactional(readOnly = true)
     public EquipoData recuperarEquipo(Long id) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);

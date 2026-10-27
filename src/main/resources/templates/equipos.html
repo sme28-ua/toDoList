@@ -7,6 +7,23 @@
 <div class="container my-4">
     <h2 class="mb-4">Listado de Equipos</h2>
 
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div th:if="${session.idUsuarioLogeado != null}" class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Crear un equipo</h5>
+            <form method="post" th:action="@{/equipos}">
+                <div class="form-group">
+                    <label for="nombre">Nombre del equipo</label>
+                    <input id="nombre" name="nombre" type="text" class="form-control"
+                           placeholder="Nombre del equipo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear equipo</button>
+            </form>
+        </div>
+    </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
