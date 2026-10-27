@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,6 +60,18 @@ public class EquipoService {
         // Hacemos uso de Java Stream API para mapear la lista de entidades a DTOs.
         return equipo.getUsuarios().stream()
                 .map(usuario -> modelMapper.map(usuario, UsuarioData.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<EquipoData> equiposUsuario(Long idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
+        if (usuario == null) {
+            return java.util.Collections.emptyList();
+        }
+        return usuario.getEquipos().stream()
+                .sorted(Comparator.comparing(Equipo::getId))
+                .map(equipo -> modelMapper.map(equipo, EquipoData.class))
                 .collect(Collectors.toList());
     }
 }
