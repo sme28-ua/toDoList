@@ -49,6 +49,11 @@ public class EquipoService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<Equipo> findAllOrdenadosPorNombre() {
+        return equipoRepository.findAllByOrderByNombreAsc();
+    }
+
     @Transactional
     public void añadirUsuarioAEquipo(Long id, Long idUsuario) {
         Equipo equipo = equipoRepository.findById(id).orElse(null);
