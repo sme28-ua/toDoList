@@ -25,7 +25,7 @@
                 </li>
                 <!-- Visible SOLO si el usuario HA iniciado sesión -->
                 <li class="nav-item" th:if="${session.idUsuarioLogeado != null}">
-                    <a class="nav-link" th:href="@{/registrados/{id}/tareas(id=${session.idUsuarioLogeado})}">Tareas</a>
+                    <a class="nav-link" th:href="@{/usuarios/{id}/tareas(id=${session.idUsuarioLogeado})}">Tareas</a>
                 </li>
             </ul>
 
