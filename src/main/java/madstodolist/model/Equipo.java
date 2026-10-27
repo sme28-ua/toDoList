@@ -2,7 +2,9 @@ package madstodolist.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "equipos")
@@ -13,6 +15,12 @@ public class Equipo implements Serializable {
     private Long id;
 
     private String nombre;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "equipo_usuario",
+            joinColumns = { @JoinColumn(name = "fk_equipo") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_usuario") })
+    private Set<Usuario> usuarios = new HashSet<>();
 
     public Equipo() {}
 
@@ -25,6 +33,15 @@ public class Equipo implements Serializable {
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void addUsuario(Usuario usuario) {
+        this.getUsuarios().add(usuario);
+        usuario.getEquipos().add(this);
+    }
 
     @Override
     public boolean equals(Object o) {
