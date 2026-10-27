@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head (titulo='Usuarios del equipo')"></head>
+<body>
+<div th:replace="fragments :: navbar"></div>
+
+<div class="container my-4">
+    <h2 th:text="'Usuarios del equipo ' + ${equipo.nombre}">Usuarios del equipo</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Email</th>
+            <th>Nombre</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.email}">usuario@example.com</td>
+            <td th:text="${usuario.nombre}">Nombre</td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(usuarios)}">
+            <td colspan="2" class="text-center text-muted">No hay usuarios en este equipo.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments :: javascript"></div>
+</body>
+</html>

@@ -17,7 +17,10 @@
         <tbody>
         <tr th:each="equipo : ${equipos}">
             <td th:text="${equipo.id}">1</td>
-            <td th:text="${equipo.nombre}">Nombre de equipo</td>
+            <td>
+                <a th:href="@{/equipos/{id}(id=${equipo.id})}"
+                   th:text="${equipo.nombre}">Nombre de equipo</a>
+            </td>
         </tr>
         <tr th:if="${#lists.isEmpty(equipos)}">
             <td colspan="2" class="text-center text-muted">No hay equipos registrados.</td>
